@@ -20,8 +20,8 @@ class BinarySearchTreeTest < Minitest::Test
     tree = BinarySearchTree.new
     tree.insert(61, "Bill & Ted's Excellent Adventure")
     assert_equal 1, tree.insert(16, "Johnny English")
-    assert_nil tree.root.right
-    assert_equal tree.root.left.data, {"Johnny English" => 16}
+    assert_nil tree.root.left
+    assert_equal tree.root.right.data, {"Johnny English" => 16}
   end
 
   def test_it_can_add_third_node
@@ -29,7 +29,7 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(61, "Bill & Ted's Excellent Adventure")
     tree.insert(16, "Johnny English")
     assert_equal 1, tree.insert(92, "Sharknado 3")
-    assert_equal tree.root.right.data, {"Sharknado 3" => 92}
+    assert_equal tree.root.left.data, {"Sharknado 3" => 92}
   end
 
   def test_it_can_add_fourth_node
@@ -38,8 +38,8 @@ class BinarySearchTreeTest < Minitest::Test
     tree.insert(16, "Johnny English")
     tree.insert(92, "Sharknado 3")
     assert_equal 2, tree.insert(50, "Hannibal Buress: Animal Furnace") 
-    assert_equal tree.root.left.right.data, {"Hannibal Buress: Animal Furnace" => 50}
-    assert_nil tree.root.left.left
+    assert_equal tree.root.right.left.data, {"Hannibal Buress: Animal Furnace" => 50}
+    assert_nil tree.root.right.right
   end
 
   def test_include?
@@ -86,20 +86,6 @@ class BinarySearchTreeTest < Minitest::Test
     assert_equal expected, tree.min
   end
 
-  def test_collect_data
-    tree = BinarySearchTree.new
-    tree.insert(61, "Bill & Ted's Excellent Adventure")
-    tree.insert(16, "Johnny English")
-    tree.insert(92, "Sharknado 3")
-    tree.insert(50, "Hannibal Buress: Animal Furnace")
-    expected = [{"Bill & Ted's Excellent Adventure"=>61},
-                {"Johnny English"=>16},
-                {"Hannibal Buress: Animal Furnace"=>50},
-                {"Sharknado 3"=>92}]
-    assert_equal expected, tree.collect_data
-    
-  end
-
   def test_sort
     tree = BinarySearchTree.new
     tree.insert(61, "Bill & Ted's Excellent Adventure")
@@ -116,7 +102,6 @@ class BinarySearchTreeTest < Minitest::Test
   def test_load
     tree = BinarySearchTree.new
     actual = tree.load("../movies.txt")
-    # binding.pry
     assert_equal 99, actual
   end
   def test_tree_health
@@ -160,6 +145,6 @@ class BinarySearchTreeTest < Minitest::Test
     expected = [98, 7, 100]
     assert_equal expected, tree.health_at_node
     expected = [58, 6, 85]
-    assert_equal expected, tree.health_at_node(tree.root.left)
+    assert_equal expected, tree.health_at_node(tree.root.right)
   end
 end
